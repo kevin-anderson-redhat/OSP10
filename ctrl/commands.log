@@ -1,0 +1,25 @@
+    1  rm -rf /var/lib/yum/repos/x86_64/7Server/*
+    2  ll
+    3  ls -al
+    4  rm .bash_history 
+    5  cat /etc/passwd
+    6  man iptables
+    7  iptables --help
+    8  iptables --list -n
+    9  iptables --insert INPUT  -p udp -m udp --dport 123 -j ACCEPT
+   10  iptables --list -n
+   11  iptables --help
+   12  yum install -y openstack-packstack
+   13  y
+   14  packstcak --gen-answer-file ~/answers.txt
+   15  packstack --gen-answer-file ~/answers.txt
+   16  vim answers.txt 
+   17  openssl req -x509 -sha256 -newkey rsa:2048 -keyout /etc/pki/tls/private/selfkey.key -out /etc/pki/tls/certs/selfcert.crt -days 365 -nodes
+   18  openssl req -x509 -sha256 -newkey rsa:2048 -keyout /etc/pki/tls/private/ssl_vnc.key -out /etc/pki/tls/certs/ssl_vnc.crt -days 365 -nodes
+   19  openssl req -x509 -sha256 -newkey rsa:2048 -keyout /etc/pki/tls/private/ssl_dashboard.key -out /etc/pki/tls/certs/ssl_dashboard.crt -days 365 -nodes
+   20  vim answers.txt 
+   21  fdisk /dev/vdb
+   22  vgcreate cinder-volumes /dev/vdb1
+   23  packstack --answer-file ./answers.txt 
+   24  cat >packstack.log
+   25  history > commands.log
