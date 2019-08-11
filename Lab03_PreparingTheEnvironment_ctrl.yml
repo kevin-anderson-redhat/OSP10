@@ -1,0 +1,51 @@
+---
+- hosts: control_nodes
+  become_user: root
+  become: yes
+
+  tasks:
+# Permit all access over the loopback interface.  This could
+# # be tightened as well, but to do so would effect some of
+# # the administrative functions.
+# restrict 127.0.0.1 
+# restrict ::1
+#
+  - name: Controller NTP configuration | remove IPv4 localhost restriction
+    lineinfile:
+      dest: "/etc/ntp.conf"
+      regexp: "^restrict 127.0.0.1"
+      line:   "# restrict 127.0.0.1"
+
+  - name: Controller NTP configuration | allow IPv4
+    lineinfile:
+      dest: "/etc/ntp.conf"
+      regexp: "^restrict -4"
+      insertafter: "^# restrict 127.0.0.1"
+      line:   "restrict -4 default kod notrap nomodify"
+
+  - name: Controller NTP configuration | remove IPv6 localhost restriction
+    lineinfile:
+      dest: "/etc/ntp.conf"
+      regexp: "^restrict ::1"
+      line:   "# restrict ::1"
+
+  - name: Controller NTP configuration | allow IPv6
+    lineinfile:
+      dest: "/etc/ntp.conf"
+      regexp: "^restrict -6"
+      insertafter: "^# restrict ::1"
+      line: "restrict -6 default kod notrap nomodify"
+
+  - name: Controller NTP configuration | Enable NTP service
+    service:
+      name: ntpd
+      enabled: yes
+      state: started
+
+  - name: Controller NTP configuration | Enable NTP service
+    iptables:
+      chain: INPUT
+      protocol: udp
+      match: udp
+      destination_port: 123
+      jump: ACCEPT

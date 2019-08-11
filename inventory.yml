@@ -1,0 +1,16 @@
+---
+all:
+  hosts:
+    ldap.example.com
+  children: 
+    control_nodes:
+      hosts:
+        ctrl.example.com
+    compute_nodes:
+      hosts:
+        comp00.example.com
+        comp01.example.com
+    storage_nodes:
+      hosts:
+        storage.example.com
+

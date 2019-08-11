@@ -1,0 +1,17 @@
+---
+- hosts: control_nodes:compute_nodes:storage_nodes
+  become_user: root
+  become: yes
+
+  tasks:
+  - name: Disable Network Manager
+    service:
+      name: NetworkManager
+      enabled: no
+      state: stopped
+
+  - name: Controller NTP configuration | allow IPv6
+    lineinfile:
+      dest: "/etc/sysconfig/network-scripts/ifcfg-eth0"
+      regexp: "^NM_CONTROLLED"
+      line: 'NM_CONTROLLED="no"'

@@ -1,0 +1,11 @@
+# Inventory
+[control_nodes]
+ctrl.example.com
+
+[compute_nodes]
+comp00.example.com
+comp01.example.com
+
+[storage_nodes]
+storage.example.com
+
