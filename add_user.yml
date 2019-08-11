@@ -21,6 +21,14 @@
 
   - name: create ssh dir
     file:
+      path: "/home/{{ new_user }}"
+      owner: "{{ new_user }}"
+      group: "{{ new_user }}"
+      mode:  "0750"
+      state: directory
+
+  - name: create ssh dir
+    file:
       path: "/home/{{ new_user }}/.ssh"
       owner: "{{ new_user }}"
       group: "{{ new_user }}"
