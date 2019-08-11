@@ -1,0 +1,54 @@
+---
+- hosts: all
+  remote_user: root
+  gather_facts: no
+  vars:
+    new_user: "keanders-redhat.com"
+    public_key: "~/.ssh/id_rsa.pub"
+
+
+  tasks:
+  - name: add_user
+    user:
+      name: "{{ new_user }}"
+      shell: "/bin/bash"
+      state: present
+
+  - name: add_user
+    user:
+      name: new_user
+      state: absent
+
+  - name: create ssh dir
+    file:
+      path: "/home/{{ new_user }}/.ssh"
+      owner: "{{ new_user }}"
+      group: "{{ new_user }}"
+      mode:  "0700"
+      state: directory
+
+  - name: add authorized keys
+    copy:
+      dest: "/home/{{ new_user }}/.ssh/authorized_keys"
+      src:  "{{ public_key }}"
+      mode: "0644"
+      owner: "{{ new_user }}"
+      group: "{{ new_user }}"
+
+  - name: add access
+    lineinfile:
+      dest: "/etc/security/access.conf"
+      regexp: "^.:{{ new_user }}:"
+      line:   "+:{{ new_user}}:ALL"
+
+  - name: add sudoers entry
+    copy:
+      dest: "/etc/sudoers.d/{{ new_user|replace('.','-')}}"
+      content: "{{ new_user }} ALL= NOPASSWD:ALL"
+      owner: root
+      group: root
+      mode:  "0644"
+
+    
+      
+
