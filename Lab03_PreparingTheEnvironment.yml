@@ -4,8 +4,22 @@
   gather_facts: no
 
   tasks:
-  - name: Yum update
+  - name: Install OpenStack Platform Utilities
     package:
       state: latest
-      name: "*"
+      name:
+      - openstack-utils
+      - openstack-selinux
+      - iptables-services
 
+  - name: Configure Firewall | iptables
+    service:
+      name: iptables
+      enabled: yes
+      state: started
+
+  - name: Configure Firewall | ip6tables
+    service:
+      name: ip6tables
+      enabled: yes
+      state: started
